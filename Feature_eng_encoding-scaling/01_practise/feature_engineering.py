@@ -214,4 +214,5 @@ pf.fit(df[features])
 pf.get_feature_names_out()  #Must add input_features = features for appropriate names
 
 feat_array = pf.transform(df[features])
-pd.DataFrame(feat_array, columns = pf.get_feature_names_out(input_features=features))
+df = pd.DataFrame(feat_array, columns = pf.get_feature_names_out(input_features=features))
+print(df.head())
