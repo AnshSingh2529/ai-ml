@@ -8,7 +8,7 @@ import numpy as np
 
 warnings.filterwarnings("ignore")
 
-sns.set()
+sns.set()   
 
 URL = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML0232EN-SkillsNetwork/asset/Ames_Housing_Data.tsv"
 
