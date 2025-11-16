@@ -158,11 +158,30 @@ nbh_counts = df.Neighborhood.value_counts()
 # print(nbh_counts)
 
 other_nbh = list(nbh_counts[nbh_counts <= 8].index)
-print(other_nbh)
+# print(other_nbh)
 
 X4 = X3.copy()
 X4["Neighborhood"] = df["Neighborhood"].replace(other_nbh, "Other")
 # print(X4['Neighborhood'].value_counts())
 
 
+# print(X4.groupby("Neighborhood")["Overall Qual"].transform(lambda x: x.mean()))
+# print(X4.groupby("Neighborhood")["Overall Qual"].transform(lambda x: x.std()))
 
+
+def add_deviation_feature(X, feature, category):
+
+    category_gp = X.groupby(category)[feature]
+    category_mean = category_gp.transform(lambda x: x.mean())
+    category_std = category_gp.transform(lambda x: x.std())
+
+    deviation_feature = (X[feature] - category_mean) / category_std
+    new_feature_name = "{}_dev_from_{}".format(feature, category)
+    X[new_feature_name] = deviation_feature
+
+
+X5 = X4.copy()
+X5["House Style"] = df["House Style"]
+add_deviation_feature(X5, "Year Built", "House Style")
+add_deviation_feature(X5, "Overall Qual", "Neighborhood")
+print(X5.head())
