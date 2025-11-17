@@ -1,6 +1,5 @@
 import warnings
 import pandas as pd
-from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -185,3 +184,20 @@ X5["House Style"] = df["House Style"]
 add_deviation_feature(X5, "Year Built", "House Style")
 add_deviation_feature(X5, "Overall Qual", "Neighborhood")
 print(X5.head())
+
+
+
+# ----------- Using sklearn - allow many higher-order terms at once using PolynomialFeature-------------
+
+from sklearn.preprocessing import PolynomialFeatures
+
+pf = PolynomialFeatures(degree=2)
+features = ["Overall Qual", "Gr Liv Area", "Year Built"]
+pf.fit(df[features])
+
+pf.get_feature_names_out()
+
+feature_array = pf.transform(df[features])
+poly_features_df = pd.DataFrame(
+    feature_array, columns=pf.get_feature_names_out(input_features=features)
+)
